@@ -21,7 +21,6 @@ class CreateVariablesTable extends Migration
             $table->longtext('value');
             $table->boolean('eval')->default(false);
             $table->boolean('active')->default(true);
-            $table->timestamps();
         });
     }
 

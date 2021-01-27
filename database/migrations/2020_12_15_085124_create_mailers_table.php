@@ -23,7 +23,6 @@ class CreateMailersTable extends Migration
             $table->integer('quota_qtd_max')->index()->default(-1)->comment('Max sends per month');
             $table->smallInteger('quota_renovation')->index()->nullable()->comment('Quota renewal day');
             $table->boolean('active')->default(true)->index()->comment('0 - false | 1 - true');
-            $table->timestamps();
         });
     }
 

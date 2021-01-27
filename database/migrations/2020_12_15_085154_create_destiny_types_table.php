@@ -17,7 +17,6 @@ class CreateDestinyTypesTable extends Migration
             $table->engine = 'InnoDB';
             $table->uuid('uid')->primary();
             $table->string('slug', 3)->unique();
-            $table->timestamps();
         });
     }
 

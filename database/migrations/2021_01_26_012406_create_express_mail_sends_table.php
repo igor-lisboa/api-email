@@ -17,10 +17,10 @@ class CreateExpressMailSendsTable extends Migration
             $table->uuid('uid')->primary();
             $table->uuid('user_uid')->index();
             $table->string('subject', 150)->nullable();
-            $table->uuid('send_type_uid')->index();
-            $table->foreign('send_type_uid')->references('uid')->on('send_types');
-            $table->uuid('mailer_uid')->index();
-            $table->foreign('mailer_uid')->references('uid')->on('mailers');
+            $table->unsignedBigInteger('send_type_id')->index();
+            $table->foreign('send_type_id')->references('id')->on('send_types');
+            $table->unsignedBigInteger('mailer_id')->index();
+            $table->foreign('mailer_id')->references('id')->on('mailers');
             $table->uuid('from_uid')->index();
             $table->foreign('from_uid')->references('uid')->on('emails');
             $table->uuid('answer_to_uid')->index()->nullable();

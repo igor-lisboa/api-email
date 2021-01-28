@@ -18,11 +18,11 @@ class CreateSendDestinationsTable extends Migration
             $table->uuid('send_uid')->index();
             $table->uuid('email_uid')->nullable()->index();
             $table->uuid('group_uid')->nullable()->index();
-            $table->uuid('destiny_type_uid');
+            $table->unsignedBigInteger('destiny_type_id');
             $table->foreign('send_uid')->references('uid')->on('sends');
             $table->foreign('email_uid')->references('uid')->on('emails');
             $table->foreign('group_uid')->references('uid')->on('groups');
-            $table->foreign('destiny_type_uid')->references('uid')->on('destiny_types');
+            $table->foreign('destiny_type_id')->references('id')->on('destiny_types');
             $table->timestamps();
         });
     }

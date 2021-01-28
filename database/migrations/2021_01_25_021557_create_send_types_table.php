@@ -26,6 +26,6 @@ class CreateSendTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('express_mail_send_types');
+        Schema::dropIfExists('send_types');
     }
 }

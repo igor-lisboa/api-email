@@ -18,7 +18,7 @@ class CreateEmailsTable extends Migration
             $table->uuid('uid')->primary();
             $table->uuid('user_uid')->index();
             $table->string('email', 100)->unique()->index();
-            $table->string('nome', 80)->nullable();
+            $table->string('name', 80)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

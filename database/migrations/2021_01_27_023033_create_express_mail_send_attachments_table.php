@@ -14,7 +14,6 @@ class CreateExpressMailSendAttachmentsTable extends Migration
     public function up()
     {
         Schema::create('express_mail_send_attachments', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->uuid('uid')->primary();
             $table->uuid('express_mail_send_uid')->index();
             $table->foreign('express_mail_send_uid')->references('uid')->on('express_mail_sends');

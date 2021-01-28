@@ -14,8 +14,7 @@ class CreateMailersTable extends Migration
     public function up()
     {
         Schema::create('mailers', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->uuid('uid')->primary();
+            $table->id();
             $table->uuid('user_uid')->index();
             $table->string('slug', 50)->unique();
             $table->integer('priority')->index()->default(1)->comment('Higher number => lower priority');

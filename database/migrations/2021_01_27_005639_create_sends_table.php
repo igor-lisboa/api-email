@@ -14,7 +14,6 @@ class CreateSendsTable extends Migration
     public function up()
     {
         Schema::create('sends', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->uuid('uid')->primary();
             $table->longText('content');
             $table->uuid('express_mail_send_uid')->index();

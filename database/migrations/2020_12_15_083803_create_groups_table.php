@@ -14,7 +14,6 @@ class CreateGroupsTable extends Migration
     public function up()
     {
         Schema::create('groups', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->uuid('uid')->primary();
             $table->uuid('user_uid')->index();
             $table->string('name', 100)->unique()->index();

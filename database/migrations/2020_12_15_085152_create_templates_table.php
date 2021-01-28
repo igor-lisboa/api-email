@@ -14,7 +14,6 @@ class CreateTemplatesTable extends Migration
     public function up()
     {
         Schema::create('templates', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->uuid('uid')->primary();
             $table->uuid('user_uid')->index();
             $table->string('slug', 150)->unique();

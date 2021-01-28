@@ -14,8 +14,7 @@ class CreateSendTypesTable extends Migration
     public function up()
     {
         Schema::create('send_types', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->uuid('uid')->primary();
+            $table->id();
             $table->string('type', 50);
         });
     }

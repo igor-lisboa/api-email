@@ -14,7 +14,6 @@ class CreateGroupMembersTable extends Migration
     public function up()
     {
         Schema::create('group_members', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->uuid('uid')->primary();
             $table->uuid('group_uid')->index();
             $table->uuid('email_uid')->index();

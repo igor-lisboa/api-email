@@ -14,7 +14,6 @@ class CreateTemplateVariablesTable extends Migration
     public function up()
     {
         Schema::create('template_variables', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->uuid('uid')->primary();
             $table->uuid('template_uid')->index();
             $table->foreign('template_uid')->references('uid')->on('templates')->cascadeOnDelete();

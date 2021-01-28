@@ -14,7 +14,6 @@ class CreateExpressMailSendsTable extends Migration
     public function up()
     {
         Schema::create('express_mail_sends', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->uuid('uid')->primary();
             $table->uuid('user_uid')->index();
             $table->string('subject', 150)->nullable();

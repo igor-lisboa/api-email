@@ -14,8 +14,7 @@ class CreateVariablesTable extends Migration
     public function up()
     {
         Schema::create('variables', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->uuid('uid')->primary();
+            $table->id();
             $table->string('slug', 30)->unique();
             $table->string('description', 100)->nullable();
             $table->longtext('value');

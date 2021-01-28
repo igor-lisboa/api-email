@@ -14,7 +14,6 @@ class CreateEmailsTable extends Migration
     public function up()
     {
         Schema::create('emails', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->uuid('uid')->primary();
             $table->uuid('user_uid')->index();
             $table->string('email', 100)->unique()->index();

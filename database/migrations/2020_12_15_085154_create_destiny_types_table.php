@@ -14,8 +14,7 @@ class CreateDestinyTypesTable extends Migration
     public function up()
     {
         Schema::create('destiny_types', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->uuid('uid')->primary();
+            $table->id();
             $table->string('slug', 3)->unique();
         });
     }

@@ -14,7 +14,6 @@ class CreateSendDestinationsTable extends Migration
     public function up()
     {
         Schema::create('send_destinations', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->uuid('uid')->primary();
             $table->uuid('send_uid')->index();
             $table->uuid('email_uid')->nullable()->index();

@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Traits\Uuid;
 use Illuminate\Database\Eloquent\Model;
 
-class Member extends Model
+class GroupMember extends Model
 {
     use Uuid;
 
@@ -43,4 +43,14 @@ class Member extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    public function group()
+    {
+        return $this->belongsTo(Group::class, 'group_uid');
+    }
+
+    public function email()
+    {
+        return $this->hasOne(Email::class, 'email_uid');
+    }
 }

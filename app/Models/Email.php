@@ -37,4 +37,9 @@ class Email extends Model
      * @var array
      */
     protected $fillable = ['user_uid', 'name', 'email'];
+
+    public function groupMembers()
+    {
+        return $this->hasMany(GroupMember::class, 'email_uid', 'uid');
+    }
 }

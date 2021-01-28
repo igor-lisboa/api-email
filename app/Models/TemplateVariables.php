@@ -4,11 +4,10 @@ namespace App\Models;
 
 use App\Traits\Uuid;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Group extends Model
+class TemplateVariables extends Model
 {
-    use Uuid, SoftDeletes;
+    use Uuid;
 
     /**
      * The primary key associated with the table.
@@ -36,10 +35,10 @@ class Group extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_uid', 'name', 'active'];
+    protected $fillable = ['template_uid', 'slug', 'description'];
 
-    public function members()
+    public function template()
     {
-        return $this->hasMany(GroupMember::class, 'group_uid', 'uid');
+        return $this->belongsTo(Template::class, 'template_uid', 'uid');
     }
 }

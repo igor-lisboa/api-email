@@ -20,6 +20,7 @@ class CreateGroupMembersTable extends Migration
             $table->uuid('email_uid')->index();
             $table->foreign('group_uid')->references('uid')->on('groups')->cascadeOnDelete();
             $table->foreign('email_uid')->references('uid')->on('emails')->cascadeOnDelete();
+            $table->timestamps();
         });
     }
 

@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Traits\Uuid;
 use Illuminate\Database\Eloquent\Model;
 
-class TemplateVariables extends Model
+class Variable extends Model
 {
     use Uuid;
 
@@ -35,10 +35,5 @@ class TemplateVariables extends Model
      *
      * @var array
      */
-    protected $fillable = ['template_uid', 'slug', 'description'];
-
-    public function template()
-    {
-        return $this->belongsTo(Template::class, 'template_uid', 'uid');
-    }
+    protected $fillable = ['slug', 'description', 'value', 'eval', 'active'];
 }

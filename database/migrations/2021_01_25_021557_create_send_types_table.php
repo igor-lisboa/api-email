@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateExpressMailSendTypesTable extends Migration
+class CreateSendTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateExpressMailSendTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('express_mail_send_types', function (Blueprint $table) {
+        Schema::create('send_types', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->uuid('uid')->primary();
             $table->string('type', 50);
-            $table->timestamps();
         });
     }
 

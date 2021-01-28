@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Traits\Uuid;
 use Illuminate\Database\Eloquent\Model;
 
-class GroupMember extends Model
+class SendType extends Model
 {
     use Uuid;
 
@@ -35,15 +35,12 @@ class GroupMember extends Model
      *
      * @var array
      */
-    protected $fillable = ['group_uid', 'email_uid'];
+    protected $fillable = ['type'];
 
-    public function group()
-    {
-        return $this->belongsTo(Group::class, 'group_uid');
-    }
-
-    public function email()
-    {
-        return $this->hasOne(Email::class, 'email_uid');
-    }
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 }

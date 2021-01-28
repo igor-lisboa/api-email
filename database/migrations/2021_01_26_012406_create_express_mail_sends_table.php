@@ -18,8 +18,8 @@ class CreateExpressMailSendsTable extends Migration
             $table->uuid('uid')->primary();
             $table->uuid('user_uid')->index();
             $table->string('subject', 150)->nullable();
-            $table->uuid('express_mail_send_type_uid')->index();
-            $table->foreign('express_mail_send_type_uid')->references('uid')->on('express_mail_send_types');
+            $table->uuid('send_type_uid')->index();
+            $table->foreign('send_type_uid')->references('uid')->on('send_types');
             $table->uuid('mailer_uid')->index();
             $table->foreign('mailer_uid')->references('uid')->on('mailers');
             $table->uuid('from_uid')->index();
@@ -28,7 +28,7 @@ class CreateExpressMailSendsTable extends Migration
             $table->foreign('answer_to_uid')->references('uid')->on('emails');
             $table->uuid('template_uid')->index()->nullable();
             $table->foreign('template_uid')->references('uid')->on('templates');
-            $table->boolean('public')->default(false);
+            $table->boolean('show_online')->default(false);
             $table->boolean('embed_image')->default(false);
             $table->boolean('markdown')->default(false);
             $table->dateTimeTz('send_moment');

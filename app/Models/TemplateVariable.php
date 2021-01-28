@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Traits\Uuid;
 use Illuminate\Database\Eloquent\Model;
 
-class GroupMember extends Model
+class TemplateVariable extends Model
 {
     use Uuid;
 
@@ -35,15 +35,10 @@ class GroupMember extends Model
      *
      * @var array
      */
-    protected $fillable = ['group_uid', 'email_uid'];
+    protected $fillable = ['template_uid', 'slug', 'description'];
 
-    public function group()
+    public function template()
     {
-        return $this->belongsTo(Group::class, 'group_uid');
-    }
-
-    public function email()
-    {
-        return $this->hasOne(Email::class, 'email_uid');
+        return $this->belongsTo(Template::class, 'template_uid', 'uid');
     }
 }

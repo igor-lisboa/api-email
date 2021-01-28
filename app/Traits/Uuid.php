@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 
 trait Uuid
 {
-    public static function bootUuidTrait()
+    public static function bootUuid()
     {
         static::creating(function ($model) {
             $uid = $model->getKeyName();

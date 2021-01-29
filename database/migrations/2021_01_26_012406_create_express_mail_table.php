@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateExpressMailSendsTable extends Migration
+class CreateExpressMailTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateExpressMailSendsTable extends Migration
      */
     public function up()
     {
-        Schema::create('express_mail_sends', function (Blueprint $table) {
+        Schema::create('express_mails', function (Blueprint $table) {
             $table->uuid('uid')->primary();
             $table->uuid('user_uid')->index();
             $table->string('subject', 150)->nullable();
@@ -42,6 +42,6 @@ class CreateExpressMailSendsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('express_mail_sends');
+        Schema::dropIfExists('express_mails');
     }
 }

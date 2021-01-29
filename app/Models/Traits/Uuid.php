@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits;
+namespace App\Models\Traits;
 
 use Illuminate\Support\Str;
 
@@ -15,5 +15,15 @@ trait Uuid
             }
             $model->$uid = Str::uuid();
         });
+    }
+
+    public function getIncrementing()
+    {
+        return false;
+    }
+
+    public function getKeyType()
+    {
+        return 'string';
     }
 }

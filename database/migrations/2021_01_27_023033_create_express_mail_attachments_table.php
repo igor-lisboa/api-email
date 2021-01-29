@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateExpressMailSendAttachmentsTable extends Migration
+class CreateExpressMailAttachmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateExpressMailSendAttachmentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('express_mail_send_attachments', function (Blueprint $table) {
+        Schema::create('express_mail_attachments', function (Blueprint $table) {
             $table->uuid('uid')->primary();
-            $table->uuid('express_mail_send_uid')->index();
-            $table->foreign('express_mail_send_uid')->references('uid')->on('express_mail_sends');
+            $table->uuid('express_mail_uid')->index();
+            $table->foreign('express_mail_uid')->references('uid')->on('express_mails');
             $table->string('file', 300);
             $table->string('name', 100)->nullable();
             $table->timestamps();
@@ -30,6 +30,6 @@ class CreateExpressMailSendAttachmentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('express_mail_send_attachments');
+        Schema::dropIfExists('express_mail_attachments');
     }
 }

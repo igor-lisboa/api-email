@@ -15,14 +15,10 @@ class CreateSendDestinationsTable extends Migration
     {
         Schema::create('send_destinations', function (Blueprint $table) {
             $table->uuid('uid')->primary();
-            $table->uuid('send_uid')->index();
-            $table->uuid('email_uid')->nullable()->index();
-            $table->uuid('group_uid')->nullable()->index();
-            $table->unsignedBigInteger('destiny_type_id');
-            $table->foreign('send_uid')->references('uid')->on('sends');
-            $table->foreign('email_uid')->references('uid')->on('emails');
-            $table->foreign('group_uid')->references('uid')->on('groups');
-            $table->foreign('destiny_type_id')->references('id')->on('destiny_types');
+            $table->foreignUuid('send_uid')->index()->constrained(null, 'uid');
+            $table->foreignUuid('email_uid')->nullable()->index()->constrained(null, 'uid');
+            $table->foreignUuid('group_uid')->nullable()->index()->constrained(null, 'uid');
+            $table->foreignId('destiny_type_id')->constrained();
             $table->timestamps();
         });
     }

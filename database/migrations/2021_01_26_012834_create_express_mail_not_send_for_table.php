@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateExpressMailSendNotSendForTable extends Migration
+class CreateExpressMailNotSendForTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateExpressMailSendNotSendForTable extends Migration
      */
     public function up()
     {
-        Schema::create('express_mail_send_not_send_for', function (Blueprint $table) {
+        Schema::create('express_mail_not_send_for', function (Blueprint $table) {
             $table->uuid('uid')->primary();
-            $table->uuid('express_mail_send_uid')->index();
-            $table->foreign('express_mail_send_uid')->references('uid')->on('express_mail_sends');
+            $table->uuid('express_mail_uid')->index();
+            $table->foreign('express_mail_uid')->references('uid')->on('express_mails');
             $table->uuid('group_uid')->nullable()->index();
             $table->foreign('group_uid')->references('uid')->on('groups');
             $table->timestamps();
@@ -30,6 +30,6 @@ class CreateExpressMailSendNotSendForTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('express_mail_send_not_send_for');
+        Schema::dropIfExists('express_mail_not_send_for');
     }
 }

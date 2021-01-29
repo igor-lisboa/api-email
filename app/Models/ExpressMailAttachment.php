@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Models\Traits\Uuid;
 use Illuminate\Database\Eloquent\Model;
 
-class ExpressMailAttachments extends Model
+class ExpressMailAttachment extends Model
 {
     use Uuid;
 

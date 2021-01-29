@@ -27,4 +27,9 @@ class Send extends Model
     {
         return $this->belongsTo(ExpressMail::class, 'express_mail_uid', 'uid');
     }
+
+    public function destinations()
+    {
+        return $this->hasMany(SendDestination::class, 'send_uid');
+    }
 }

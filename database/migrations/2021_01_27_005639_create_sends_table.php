@@ -16,7 +16,7 @@ class CreateSendsTable extends Migration
         Schema::create('sends', function (Blueprint $table) {
             $table->uuid('uid')->primary();
             $table->longText('content');
-            $table->uuid('express_mail_uid')->index();
+            $table->uuid('express_mail_uid')->nullable()->index();
             $table->foreign('express_mail_uid')->references('uid')->on('express_mails');
             $table->boolean('sent')->index()->default(false);
             $table->longText('return')->nullable();

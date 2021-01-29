@@ -59,4 +59,19 @@ class ExpressMail extends Model
     {
         return $this->hasOne(Template::class, 'template_uid');
     }
+
+    public function notSendFor()
+    {
+        return $this->hasMany(ExpressMailNotSendFor::class, 'express_mail_uid');
+    }
+
+    public function attachments()
+    {
+        return $this->hasMany(ExpressMailAttachment::class, 'express_mail_uid');
+    }
+
+    public function sends()
+    {
+        return $this->hasMany(Send::class, 'express_mail_uid');
+    }
 }

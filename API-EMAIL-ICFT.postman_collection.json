@@ -1,0 +1,95 @@
+{
+	"info": {
+		"_postman_id": "9c1d9c63-8753-470b-bffe-3c9878fde45b",
+		"name": "API-EMAIL-ICFT",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "EMAIL",
+			"item": [
+				{
+					"name": "INDEX",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_EMAIL_ICFT}}/emails?per_page=1&page=1",
+							"host": [
+								"{{API_EMAIL_ICFT}}"
+							],
+							"path": [
+								"emails"
+							],
+							"query": [
+								{
+									"key": "per_page",
+									"value": "1"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "STORE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_uid\":\"3823832838\",\r\n    \"email\":\"teste@123.c\",\r\n    \"name\":\"sasas\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_EMAIL_ICFT}}/emails",
+							"host": [
+								"{{API_EMAIL_ICFT}}"
+							],
+							"path": [
+								"emails"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SEARCH",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_EMAIL_ICFT}}/emails/search?page=10&per_page=1",
+							"host": [
+								"{{API_EMAIL_ICFT}}"
+							],
+							"path": [
+								"emails",
+								"search"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "10"
+								},
+								{
+									"key": "per_page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

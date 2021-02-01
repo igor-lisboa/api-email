@@ -16,3 +16,15 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+
+$router->group(['prefix' => 'api/v1'], function () use ($router) {
+    $router->group(['prefix' =>  'emails'], function () use ($router) {
+        $router->get('', 'EmailController@index');
+        $router->post('', 'EmailController@store');
+        $router->get('search', 'EmailController@search');
+        $router->get('{uid}', 'EmailController@show');
+        $router->put('{uid}', 'EmailController@update');
+        $router->delete('{uid}', 'EmailController@destroy');
+    });
+});

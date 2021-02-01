@@ -15,7 +15,7 @@ class CreateMailersTable extends Migration
     {
         Schema::create('mailers', function (Blueprint $table) {
             $table->id();
-            $table->uuid('user_uid')->index();
+            $table->uuid('user_uid')->nullable()->index();
             $table->string('slug', 50)->unique();
             $table->integer('priority')->index()->default(1)->comment('Higher number => lower priority');
             $table->integer('quota_qtd')->index()->default(-1)->comment('Sends per month');

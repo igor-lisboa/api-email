@@ -29,7 +29,9 @@ class CreateExpressMailTable extends Migration
             $table->foreign('template_uid')->references('uid')->on('templates');
             $table->boolean('show_online')->default(false);
             $table->boolean('embed_image')->default(false);
+            $table->boolean('suspended')->default(false);
             $table->boolean('markdown')->default(false);
+            $table->string('callback_url')->nullable();
             $table->dateTimeTz('send_moment');
             $table->timestamps();
         });

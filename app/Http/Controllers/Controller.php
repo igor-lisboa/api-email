@@ -68,7 +68,7 @@ class Controller extends BaseController
         ], $status_code);
     }
 
-    public function responseApiException(Exception $e, Request $request, string $message, int $code = 500)
+    public function responseApiException(Exception $e, Request $request, string $message, int $code = 500): JsonResponse
     {
         Log::error($e->getMessage());
 
@@ -217,7 +217,7 @@ class Controller extends BaseController
                 ], false, __('custom.store.fail'), 422);
             }
 
-            $data = $this->model::create($validator->validated());
+            $data = $this->model::create(array_merge($validator->validated(), ['user_uid' => '39493x3']));
 
             return $this->responseApi($data, true, __('custom.store.success'), 201);
         } catch (Exception $e) {
@@ -230,10 +230,10 @@ class Controller extends BaseController
      * @param string $uid
      * @return JsonResponse
      */
-    public function show(Request $request, string $uid): JsonResponse
+    public  function show(Request $request, string $uid): JsonResponse
     {
         try {
-            $data = $this->model::find($uid);
+            $data = $this->model::where('user_uid', '39493x3')->find($uid);
 
             if (is_null($data)) {
                 return $this->responseApi([], false,  __('custom.show.not_found'), 404);
@@ -265,13 +265,13 @@ class Controller extends BaseController
                 ], false, __('custom.update.fail'), 422);
             }
 
-            $show_return = $this->show($request, $uid);
+            $show_return = $this->show($request, $uid)->getData();
 
-            if (!$show_return['success']) {
+            if ($show_return->success === false) {
                 return $show_return;
             }
 
-            $data = $show_return['data'];
+            $data = $show_return->data;
             $data->update($request->all());
 
             return $this->responseApi($data, true, __('custom.update.success'));
@@ -288,11 +288,15 @@ class Controller extends BaseController
     public function destroy(string $uid, Request $request): JsonResponse
     {
         try {
-            $data = $this->model::destroy($uid);
+            $show_return = $this->show($request, $uid);
+            $show_return_decoded = json_decode($show_return, true);
 
-            if ($data == 0) {
-                return $this->responseApi([], false, __('custom.destroy.not_found'), 404);
+            if ($show_return_decoded['success'] === false) {
+                return $show_return;
             }
+
+            $data = $show_return_decoded['data'];
+            $data->delete();
 
             return $this->responseApi([], true, __('custom.destroy.success'));
         } catch (Exception $e) {

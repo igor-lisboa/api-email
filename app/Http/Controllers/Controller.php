@@ -72,14 +72,19 @@ class Controller extends BaseController
     {
         Log::error($e->getMessage());
 
+        $exception = [
+            'message' => $e->getMessage(),
+            'code' => $e->getCode()
+        ];
+
+        if (config('app.debug', false)) {
+            $exception['trace_as_string'] = $e->getTraceAsString();
+            $exception['file'] = $e->getFile();
+            $exception['line'] = $e->getLine();
+        }
+
         return $this->responseApi([
-            'exception' => [
-                'message' => $e->getMessage(),
-                'code' => $e->getCode(),
-                'trace_as_string' => $e->getTraceAsString(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine()
-            ],
+            'exception' => $exception,
             'request' => $request->toArray()
         ], false, $message, $code);
     }
@@ -99,18 +104,14 @@ class Controller extends BaseController
                 $data->load($this->indexWith);
             }
 
-            return $this->responseApi($data, true, 'Dados retornados com sucesso.');
+            return $this->responseApi($data, true, __('custom.index.success'));
         } catch (Exception $e) {
-            return $this->responseApiException($e, $request, 'Falha interna ao listar dados.');
+            return $this->responseApiException($e, $request, __('custom.index.fail'));
         }
     }
 
     /**
      * Busca avancada
-     * Estrutura padrao:
-     * {"select":"*","where":[{"table":"TABELA", "column":"COLUNA", "operation":"=", "link":"AND"}]
-     * "join":[{"type":"JOIN", "table":"TABELA", "from":"TABELA_JOIN", "operation":"=","to":"TABELA_JOIN_2"}]
-     * "orderBy":{"type":"DESC","column":"COLUNA"}
      * @param Request $request
      * @return JsonResponse
      */
@@ -195,9 +196,9 @@ class Controller extends BaseController
                 $data->load($this->indexWith);
             }
 
-            return $this->responseApi($data, true, 'Dados retornados com sucesso.');
+            return $this->responseApi($data, true, __('custom.search.success'));
         } catch (Exception $e) {
-            return $this->responseApiException($e, $request, 'Falha interna ao listar dados.');
+            return $this->responseApiException($e, $request, __('custom.search.fail'));
         }
     }
 
@@ -213,14 +214,14 @@ class Controller extends BaseController
             if ($validator->fails()) {
                 return $this->responseApi([
                     'errors' => $validator->errors()
-                ], false, 'Falha interna ao criar dados.', 422);
+                ], false, __('custom.store.fail'), 422);
             }
 
-            $data = $this->model::create(array_merge($validator->validated(), ['user_uid' => '39493x3']));
+            $data = $this->model::create($validator->validated());
 
-            return $this->responseApi($data, true, 'Dados criados com sucesso.', 201);
+            return $this->responseApi($data, true, __('custom.store.success'), 201);
         } catch (Exception $e) {
-            return $this->responseApiException($e, $request, 'Falha interna ao criar dados.');
+            return $this->responseApiException($e, $request, __('custom.store.fail'));
         }
     }
 
@@ -235,16 +236,16 @@ class Controller extends BaseController
             $data = $this->model::find($uid);
 
             if (is_null($data)) {
-                return $this->responseApi([], false, 'Este registro não existe.', 404);
+                return $this->responseApi([], false,  __('custom.show.not_found'), 404);
             }
 
             if (!empty($this->showWith)) {
                 $data->load($this->showWith);
             }
 
-            return $this->responseApi($data, true, 'Dados retornados com sucesso.');
+            return $this->responseApi($data, true, __('custom.show.success'));
         } catch (Exception $e) {
-            return $this->responseApiException($e, $request, 'Falha interna ao exibir dados.');
+            return $this->responseApiException($e, $request, __('custom.show.fail'));
         }
     }
 
@@ -261,7 +262,7 @@ class Controller extends BaseController
             if ($validator->fails()) {
                 return $this->responseApi([
                     'errors' => $validator->errors()
-                ], false, 'Falha interna ao atualizar dados.', 422);
+                ], false, __('custom.update.fail'), 422);
             }
 
             $show_return = $this->show($request, $uid);
@@ -273,9 +274,9 @@ class Controller extends BaseController
             $data = $show_return['data'];
             $data->update($request->all());
 
-            return $this->responseApi($data, true, 'Dados atualizados com sucesso.');
+            return $this->responseApi($data, true, __('custom.update.success'));
         } catch (Exception $e) {
-            return $this->responseApiException($e, $request, 'Falha interna ao atualizar dados.');
+            return $this->responseApiException($e, $request, __('custom.update.fail'));
         }
     }
 
@@ -290,12 +291,12 @@ class Controller extends BaseController
             $data = $this->model::destroy($uid);
 
             if ($data == 0) {
-                return $this->responseApi([], false, 'Este registro não existe.', 404);
+                return $this->responseApi([], false, __('custom.destroy.not_found'), 404);
             }
 
-            return $this->responseApi([], true, 'Dados excluídos com sucesso.');
+            return $this->responseApi([], true, __('custom.destroy.success'));
         } catch (Exception $e) {
-            return $this->responseApiException($e, $request, 'Falha interna ao excluir dados.');
+            return $this->responseApiException($e, $request, __('custom.destroy.fail'));
         }
     }
 }

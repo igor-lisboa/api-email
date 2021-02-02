@@ -15,7 +15,8 @@ class SetLanguage
      */
     public function handle($request, Closure $next)
     {
-        app('translator')->setLocale($request->route('locale'));
+        // $locale=$request->route('locale');
+        app('translator')->setLocale('pt_br');
         return $next($request);
     }
 }

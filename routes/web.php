@@ -18,7 +18,7 @@ $router->get('/', function () use ($router) {
 });
 
 
-$router->group(['prefix' => 'api/v1/{locale}', 'middleware' => ['setLang']], function () use ($router) {
+$router->group(['prefix' => 'api/v1', 'middleware' => ['setLang']], function () use ($router) {
     $router->group(['prefix' =>  'emails'], function () use ($router) {
         $router->get('', 'EmailController@index');
         $router->post('', 'EmailController@store');

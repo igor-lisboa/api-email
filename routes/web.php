@@ -22,40 +22,48 @@ $router->group(['prefix' => 'api/v1/{locale}', 'middleware' => ['setLang']], fun
     $router->group(['prefix' =>  'emails'], function () use ($router) {
         $router->get('', 'EmailController@index');
         $router->post('', 'EmailController@store');
-        $router->get('{uid}', 'EmailController@show');
-        $router->put('{uid}', 'EmailController@update');
-        $router->delete('{uid}', 'EmailController@destroy');
+        $router->group(['prefix' =>  '{uid}'], function ($uid) use ($router) {
+            $router->get('', 'EmailController@show');
+            $router->put('', 'EmailController@update');
+            $router->delete('', 'EmailController@destroy');
+        });
     });
     $router->group(['prefix' =>  'groups'], function () use ($router) {
-        $router->group(['prefix' =>  'members'], function () use ($router) {
-            $router->get('{group_uid}', 'GroupMemberController@index');
-            $router->post('{group_uid}', 'GroupMemberController@store');
-            $router->delete('{group_uid}', 'GroupMemberController@destroy');
-        });
         $router->get('', 'GroupController@index');
         $router->post('', 'GroupController@store');
-        $router->get('{uid}', 'GroupController@show');
-        $router->put('{uid}', 'GroupController@update');
-        $router->delete('{uid}', 'GroupController@destroy');
+        $router->group(['prefix' =>  '{uid}'], function ($uid) use ($router) {
+            $router->get('', 'GroupController@show');
+            $router->put('', 'GroupController@update');
+            $router->delete('', 'GroupController@destroy');
+            $router->group(['prefix' =>  'members'], function ($uid) use ($router) {
+                $router->get('', 'GroupMemberController@index');
+                $router->post('', 'GroupMemberController@store');
+                $router->delete('{member_uid}', 'GroupMemberController@destroy');
+            });
+        });
     });
     $router->group(['prefix' =>  'templates'], function () use ($router) {
-        $router->group(['prefix' =>  'variables'], function () use ($router) {
-            $router->get('{template_uid}', 'TemplateVariableController@index');
-            $router->post('{template_uid}', 'TemplateVariableController@store');
-            $router->delete('{template_uid}', 'TemplateVariableController@destroy');
-        });
         $router->get('', 'TemplateController@index');
         $router->post('', 'TemplateController@store');
-        $router->get('{uid}', 'TemplateController@show');
-        $router->put('{uid}', 'TemplateController@update');
-        $router->delete('{uid}', 'TemplateController@destroy');
+        $router->group(['prefix' =>  '{uid}'], function ($uid) use ($router) {
+            $router->get('', 'TemplateController@show');
+            $router->put('', 'TemplateController@update');
+            $router->delete('', 'TemplateController@destroy');
+            $router->group(['prefix' =>  'variables'], function ($uid) use ($router) {
+                $router->get('', 'TemplateVariableController@index');
+                $router->post('', 'TemplateVariableController@store');
+                $router->delete('{variable_uid}', 'TemplateVariableController@destroy');
+            });
+        });
     });
     $router->group(['prefix' =>  'mailers'], function () use ($router) {
         $router->get('', 'MailerController@index');
         $router->post('', 'MailerController@store');
-        $router->get('{uid}', 'MailerController@show');
-        $router->put('{uid}', 'MailerController@update');
-        $router->delete('{uid}', 'MailerController@destroy');
+        $router->group(['prefix' =>  '{uid}'], function ($uid) use ($router) {
+            $router->get('', 'MailerController@show');
+            $router->put('', 'MailerController@update');
+            $router->delete('', 'MailerController@destroy');
+        });
     });
     $router->group(['prefix' =>  'destinyTypes'], function () use ($router) {
         $router->get('', 'DestinyTypeController@index');
@@ -67,24 +75,30 @@ $router->group(['prefix' => 'api/v1/{locale}', 'middleware' => ['setLang']], fun
         $router->get('', 'VariablesController@index');
     });
     $router->group(['prefix' =>  'expressMails'], function () use ($router) {
-        $router->group(['prefix' =>  'notSendFor'], function () use ($router) {
-            $router->get('{express_mail_uid}', 'ExpressMailController@index');
-            $router->post('{express_mail_uid}', 'ExpressMailController@store');
-            $router->delete('{express_mail_uid}', 'ExpressMailController@destroy');
-        });
         $router->get('', 'ExpressMailController@index');
         $router->post('', 'ExpressMailController@store');
-        $router->get('{uid}', 'ExpressMailController@show');
-        $router->post('{uid}/send', 'ExpressMailController@send');
-        $router->post('{uid}/suspend', 'ExpressMailController@suspend');
-        $router->put('{uid}', 'ExpressMailController@update');
-        $router->delete('{uid}', 'ExpressMailController@destroy');
+        $router->post('send', 'ExpressMailController@storeAndSend');
+        $router->group(['prefix' =>  '{uid}'], function ($uid) use ($router) {
+            $router->get('', 'ExpressMailController@show');
+            $router->put('', 'ExpressMailController@update');
+            $router->delete('', 'ExpressMailController@destroy');
+            $router->post('send', 'ExpressMailController@send');
+            $router->post('suspend', 'ExpressMailController@suspend');
+            $router->group(['prefix' =>  'notSendFor'], function ($uid) use ($router) {
+                $router->get('', 'ExpressMailNotSendForController@index');
+                $router->post('', 'ExpressMailNotSendForController@store');
+                $router->delete('{not_send_for_uid}', 'ExpressMailNotSendForController@destroy');
+            });
+        });
     });
     $router->group(['prefix' =>  'sends'], function () use ($router) {
         $router->get('', 'SendController@index');
         $router->post('', 'SendController@store');
-        $router->get('{uid}', 'SendController@show');
-        $router->put('{uid}', 'SendController@update');
-        $router->delete('{uid}', 'SendController@destroy');
+        $router->post('send', 'SendController@storeAndSend');
+        $router->group(['prefix' =>  '{uid}'], function ($uid) use ($router) {
+            $router->get('', 'SendController@show');
+            $router->put('', 'SendController@update');
+            $router->delete('', 'SendController@destroy');
+        });
     });
 });

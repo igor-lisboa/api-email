@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -57,9 +56,8 @@ class Controller extends BaseController
      * @param bool $status
      * @param string $message
      * @param int $status_code
-     * @return JsonResponse
      */
-    public function responseApi($data, bool $status = true, string $message = '', int $status_code = 200): JsonResponse
+    public function responseApi($data, bool $status = true, string $message = '', int $status_code = 200)
     {
         return response()->json([
             'success' => $status,
@@ -68,7 +66,7 @@ class Controller extends BaseController
         ], $status_code);
     }
 
-    public function responseApiException(Exception $e, Request $request, string $message, int $code = 500): JsonResponse
+    public function responseApiException(Exception $e, Request $request, string $message, int $code = 500)
     {
         Log::error($e->getMessage());
 
@@ -91,9 +89,8 @@ class Controller extends BaseController
 
     /**
      * @param Request $request
-     * @return JsonResponse
      */
-    public function index(Request $request): JsonResponse
+    public function index(Request $request)
     {
         try {
             $per_page = $request->input('per_page') ?? 15;
@@ -113,9 +110,8 @@ class Controller extends BaseController
     /**
      * Busca avancada
      * @param Request $request
-     * @return JsonResponse
      */
-    public function search(Request $request): JsonResponse
+    public function search(Request $request)
     {
         try {
             $where = $request->has('where') ? $request->get('where') : [];
@@ -204,9 +200,8 @@ class Controller extends BaseController
 
     /**
      * @param Request $request
-     * @return JsonResponse
      */
-    public function store(Request $request): JsonResponse
+    public function store(Request $request)
     {
         try {
             $validator = Validator::make($request->all(), $this->store_validator_rules, $this->store_validator_messages);
@@ -228,12 +223,16 @@ class Controller extends BaseController
     /**
      * @param Request $request
      * @param string $uid
-     * @return JsonResponse
+     * @param bool $return_model
      */
-    public  function show(Request $request, string $uid): JsonResponse
+    public  function show(Request $request, string $uid, bool $return_model = false)
     {
         try {
             $data = $this->model::where('user_uid', '39493x3')->find($uid);
+
+            if ($return_model) {
+                return $data;
+            }
 
             if (is_null($data)) {
                 return $this->responseApi([], false,  __('custom.show.not_found'), 404);
@@ -252,9 +251,8 @@ class Controller extends BaseController
     /**
      * @param Request $request
      * @param string $uid
-     * @return JsonResponse
      */
-    public function update(Request $request, string $uid): JsonResponse
+    public function update(Request $request, string $uid)
     {
         try {
             $validator = Validator::make($request->all(), $this->update_validator_rules, $this->update_validator_messages);
@@ -265,16 +263,15 @@ class Controller extends BaseController
                 ], false, __('custom.update.fail'), 422);
             }
 
-            $show_return = $this->show($request, $uid)->getData();
+            $model = $this->show($request, $uid, true);
 
-            if ($show_return->success === false) {
-                return $show_return;
+            if (is_null($model)) {
+                return $this->responseApi([], false,  __('custom.update.not_found'), 404);
             }
 
-            $data = $show_return->data;
-            $data->update($request->all());
+            $model->update($request->except('user_uid'));
 
-            return $this->responseApi($data, true, __('custom.update.success'));
+            return $this->responseApi($model, true, __('custom.update.success'));
         } catch (Exception $e) {
             return $this->responseApiException($e, $request, __('custom.update.fail'));
         }
@@ -283,20 +280,17 @@ class Controller extends BaseController
     /**
      * @param string $uid
      * @param Request $request
-     * @return JsonResponse
      */
-    public function destroy(string $uid, Request $request): JsonResponse
+    public function destroy(string $uid, Request $request)
     {
         try {
-            $show_return = $this->show($request, $uid);
-            $show_return_decoded = json_decode($show_return, true);
+            $model = $this->show($request, $uid, true);
 
-            if ($show_return_decoded['success'] === false) {
-                return $show_return;
+            if (is_null($model)) {
+                return $this->responseApi([], false,  __('custom.destroy.not_found'), 404);
             }
 
-            $data = $show_return_decoded['data'];
-            $data->delete();
+            $model->delete();
 
             return $this->responseApi([], true, __('custom.destroy.success'));
         } catch (Exception $e) {

@@ -20,7 +20,8 @@ return [
     ],
     'update' => [
         'success' => 'Dados atualizados com sucesso.',
-        'fail' => 'Falha interna ao atualizar dados.'
+        'fail' => 'Falha interna ao atualizar dados.',
+        'not_found' => 'Este registro não existe.'
     ],
     'destroy' => [
         'not_found' => 'Este registro não existe.',

@@ -6,7 +6,6 @@ use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
@@ -20,6 +19,12 @@ class Controller extends BaseController
 
     /** @var array $store_validator_messages */
     protected $store_validator_messages;
+
+    /** @var array $update_validator_rules */
+    protected $update_validator_rules;
+
+    /** @var array $update_validator_messages */
+    protected $update_validator_messages;
 
     /**
      * Relacionamentos para o método index.

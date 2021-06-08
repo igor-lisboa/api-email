@@ -10,6 +10,7 @@
     "type": "project",
     "require": {
         "php": "^7.3|^8.0",
+        "flipbox/lumen-generator": "^8.2",
         "illuminate/mail": "^8.46",
         "laravel/lumen-framework": "^8.0"
     },
@@ -25,7 +26,7 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Custom/Helpers.php"
+            "app/Custom/Helper.php"
         ]
     },
     "autoload-dev": {
